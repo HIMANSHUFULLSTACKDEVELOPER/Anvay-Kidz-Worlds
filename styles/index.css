@@ -468,7 +468,15 @@ body {
   text-align: center;
   bottom: 77px;
 }
-
+@media (max-width: 768px) {
+  .hero {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(26, 46, 19, 0.4)),
+      url("../assets/home-mobile.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll; /* Better for performance on mobile */
+  }
+}
 .hero::before {
   content: "";
   position: absolute;
