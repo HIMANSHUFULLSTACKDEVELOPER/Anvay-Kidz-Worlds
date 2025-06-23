@@ -1,73 +1,87 @@
   
   
-//   nav bar 
-     // Smooth scrolling for navigation links
+   // Smooth Scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    // Calculate offset for fixed navbar
+                    const navbarHeight = document.querySelector('.anvaytoynavbar').offsetHeight;
+                    const targetPosition = target.offsetTop - navbarHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });
         });
 
-        // Update active nav link on scroll
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.anvaytoynavbar');
+        // Active link detection and navbar scroll behavior
+        window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
+            const navbar = document.querySelector('.anvaytoynavbar');
             
-            // Add scrolled class to navbar
+            // Toggle scrolled class
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
             
-            // Update active nav link
-            let current = '';
+            // Detect current section
+            let currentId = '';
+            const navbarHeight = navbar.offsetHeight;
+            
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= sectionTop - 200) {
-                    current = section.getAttribute('id');
+                const sectionTop = section.offsetTop - navbarHeight - 100;
+                const sectionHeight = section.offsetHeight;
+                
+                if (window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    currentId = section.id;
                 }
             });
             
+            // Update active nav links
             navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const linkId = href.substring(1);
+                    
+                    if (linkId === currentId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
                 }
             });
         });
 
-        // Close mobile menu when clicking on a link
+        // Collapse navbar on link click (mobile)
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 const navbarCollapse = document.querySelector('.navbar-collapse');
-                const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
-                    toggle: false
-                });
-                bsCollapse.hide();
+                const navbarToggler = document.querySelector('.navbar-toggler');
+                
+                if (navbarCollapse.classList.contains('show')) {
+                    // Use Bootstrap's collapse method
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+                        toggle: false
+                    });
+                    bsCollapse.hide();
+                }
             });
         });
 
-        // Add hover effects
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px) scale(1.05)';
-            });
-            
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger scroll event to set initial active state
+            window.dispatchEvent(new Event('scroll'));
         });
-        //
         // shop by age
           function revealCirclesOnScroll() {
       const circles = document.querySelectorAll(".circle");
