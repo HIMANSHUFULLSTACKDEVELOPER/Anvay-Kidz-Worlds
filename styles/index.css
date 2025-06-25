@@ -254,7 +254,7 @@ body {
 .hero {
   height: 120vh;
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(26, 46, 19, 0.4)),
-    url("../assets/home-img.jpg");
+    url("../assets/home-img\ copy.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -271,7 +271,7 @@ body {
 @media (max-width: 768px) {
   .hero {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(26, 46, 19, 0.4)),
-      url("../assets/home-mobile.png");
+      url("../assets/home-mobile.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: scroll; /* Better for performance on mobile */
